@@ -14,10 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Google Cloud credentials
-        uses: google-github-actions/auth@v1
-        with:
-          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+      # - name: Set up Google Cloud credentials
+      #   uses: google-github-actions/auth@v1
+      #   with:
+      #     credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+      - name: Create GCP credentials file
+        run: echo "${{ secrets.GCP_CREDENTIALS }}" > terraform/secrets/gcp-credentials.json
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
