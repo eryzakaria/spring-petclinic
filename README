@@ -1,0 +1,24 @@
+1. Design Architecture
+VMs (virtual machines) untuk service
+Load balancer untuk distribusi trafik.
+Registry GCR untuk menyimpan image container.
+CI/CD pipeline yang diintegrasikan dengan repository Github beserta github actions
+Infrastruktur observability untuk memantau resource dan logs sperti Prometheus untuk metrik ELK atau Grafana untuk logs).
+
+2. Provision Infrastructure
+Set Up menggunakan Google Cloud Credentials: Menggunakan action google-github-actions/auth@v1 untuk credentials ke Google Cloud menggunakan service account JSON perlu menyimpan key JSON tersebut sebagai GitHub Secret. Kemudian Initialize pada file terraform berisi konfigurasi Terraform untuk menjalankan gce, vpc, subnet, dan resource lainnya di Google Cloud.
+
+3. Containerization
+disini saya menggunakan doocker image untuk membuild service yang ada dan dipush ke registry Google Container Registry.
+
+4. CI/CD Pipeline
+clone untuk dapat mengambil kode dari repository.
+(buildx) adalah sebuah plugin Docker untuk mendukung multi-architecture builds.
+Mengautentikasi DockerHub dengan menggunakan username dan password yang disimpan pada secrets.
+Membangun image dengan Docker dengan nama tag yang sudah disiapkan untuk dapat dipush di registry Google Container Registry @spring-boot:latest.
+Push image yang telah ditag ke dalam GCR
+
+5. Observability
+Elasticsearch: untuk dapat mengirimkan logs dari aplikasi ke Elasticsearch dan di visualisasikan dengan kibana
+Prometheus: Prometheus mengumpulkan data metrik dengan cara mengambil, yaitu menarik data dari endpoint HTTP yang diekspos oleh aplikasi.
+Grafana: visualisasi yang memungkinkan untuk membuat dashboard dan grafik berdasarkan data dari berbagai aplikasi yang sudah di install termasuk Prometheus
